@@ -1,0 +1,6 @@
+# This is a PIP requirements file
+#
+# You can install all dependencies with:
+# $ sudo pip install -r requirements.txt
+
+luaparser>=2.0.2
