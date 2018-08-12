@@ -1,16 +1,20 @@
 # -*- coding: utf-8  -*-
 from luaparser import ast, astnodes
+from collections import OrderedDict
 
-def parse(str, return_only = False, dont_raise = False):
+def parse(str, return_only = False, dont_raise = False, ordered = False):
     tree = ast.parse(str)
-    return ASTConverter(return_only=return_only, dont_raise=dont_raise).convert(tree)
+    return ASTConverter(return_only=return_only, dont_raise=dont_raise, ordered=ordered).convert(tree)
 
 class ASTConverter:
     __names = {}
+    __dict = dict
     
-    def __init__(self, return_only = False, dont_raise = False):
+    def __init__(self, return_only = False, dont_raise = False, ordered = False):
         self.return_only = return_only
         self.dont_raise = dont_raise
+        if ordered:
+            self.__dict = OrderedDict
     
     def convert(self, node):
         if isinstance(node, astnodes.Node):
@@ -100,7 +104,7 @@ class ASTConverter:
     def _String(self, node):
         return node.s
     def _Table(self, node):
-        res = {}
+        res = self.__dict()
         m = 0
         for field in node.fields:
             if isinstance(field.key, astnodes.Name):
