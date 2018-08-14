@@ -76,7 +76,7 @@ class Encoder():
         return 'nil'
         
     def _str(self, obj):
-        return '\'{}\''.format(obj.replace('\'', '\\\''))
+        return repr(obj)
     
     def _list(self, obj):
         if len(obj) == 0:
